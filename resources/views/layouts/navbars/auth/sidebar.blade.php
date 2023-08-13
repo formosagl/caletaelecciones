@@ -33,13 +33,34 @@
         <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Carga de datos</h6>
       </li>
       <li class="nav-item pb-2">
-        <a class="nav-link {{ (Request::is('mesas') ? 'active' : '') }}" href="{{ route('mesas.index') }}">
+        <a class="nav-link {{ ((Request::is('mesas')) || (Request::is('mesas/carga')) ? 'active' : '') }}" href="{{ route('mesas.index') }}">
           <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-            <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('mesas') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
+            <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ ((Request::is('mesas')) || (Request::is('mesas/carga')) ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
           </div>
           <span class="nav-link-text ms-1">Cargar datos</span>
         </a>
       </li>
+      @if (auth()->user()->level > 3)
+        <li class="nav-item mt-2">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Resultados</h6>
+        </li>
+        <li class="nav-item pb-2">
+          <a class="nav-link {{ (Request::is('mesas/show/1') ? 'active' : '') }}" href="{{ route('mesas.show','1') }}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('mesas/show/1') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Resultados x Escuela</span>
+          </a>
+        </li>
+        <li class="nav-item pb-2">
+          <a class="nav-link {{ (Request::is('mesas/show/0') ? 'active' : '') }}" href="{{ route('mesas.show','0') }}">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center text-dark {{ (Request::is('mesas/show/0') ? 'text-white' : 'text-dark') }} " aria-hidden="true"></i>
+            </div>
+            <span class="nav-link-text ms-1">Resultados Totales</span>
+          </a>
+        </li>
+      @endif
       <!--
       
       <li class="nav-item">

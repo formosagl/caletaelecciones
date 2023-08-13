@@ -159,7 +159,111 @@ class MesasController extends Controller
 
     public function show($id)
     {
+        if ($id == "1") {
 
+        }
+
+        $resultados = [
+            'votoscambiacaleta' => "0",
+            'votoscoaliciontuespacio' => "0",
+            'votosjuntosparacambiarcaleta' => "0",
+            'votosjuntospodemos' => "0",
+            'votosporcaleta' => "0",
+            'votos19dediciembre' => "0",
+            'votoscaletacrece' => "0",
+            'votoscaletanosune' => "0",
+            'votoscaletasi' => "0",
+            'votoscaminoalavictoria' => "0",
+            'votosdesarrollocaletense' => "0",
+            'votoselegimoscreer' => "0",
+            'votosfuezajoven' => "0",
+            'votoshastalavictoria' => "0",
+            'votoskolinacaleta' => "0",
+            'votoslealtadycompromiso' => "0",
+            'votosmascerca' => "0",
+            'votosmejorcaleta' => "0",
+            'votosnaceunaesperanza' => "0",
+            'votospensarcaletense' => "0",
+            'votospropuestajoven' => "0",
+            'votosproyectojoven' => "0",
+            'votosunidadycompromiso' => "0",
+            'votosfrentedeizquierda' => "0",
+            'votoscambiandostacruz' => "0",
+            'votosconsensopro' => "0",
+            'votosesahora' => "0",
+            'votoslafuerzadelcambio' => "0",
+            'votosmassantacruz' => "0",
+            'votosmilei' => "0",
+            'votosparacrecer' => "0",
+            'votospodemosrenovar' => "0",
+            'votosporcaletaoliv' => "0",
+            'votossantacruzpuede' => "0",
+            'votossoluciones' => "0",
+            'votossomosstacruz' => "0",
+            'votosnulos' => "0",
+            'votosrecurridos' => "0",
+            'votosimpugnados' => "0",
+            'votoscomelectoral' => "0",
+            'votosblanco' => "0",
+            'totalgral' => "0",
+            'total701' => "0",
+            'total702' => "0",
+            'total703' => "0",
+            'total704' => "0",
+        ];
+
+        $resultados['votoscambiacaleta'] = Mesa::sum('votoscambiacaleta');
+        $resultados['votoscoaliciontuespacio'] = Mesa::sum('votoscoaliciontuespacio');
+        $resultados['votosjuntosparacambiarcaleta'] = Mesa::sum('votosjuntosparacambiarcaleta');
+        $resultados['votosjuntospodemos'] = Mesa::sum('votosjuntospodemos');
+        $resultados['votosporcaleta'] = Mesa::sum('votosporcaleta');
+        $resultados['total701'] = $resultados['votoscambiacaleta'] + $resultados['votoscoaliciontuespacio'] + $resultados['votosjuntosparacambiarcaleta'] + $resultados['votosjuntospodemos'] + $resultados['votosporcaleta'];
+
+        $resultados['votos19dediciembre'] = Mesa::sum('votos19dediciembre');
+        $resultados['votoscaletacrece'] = Mesa::sum('votoscaletacrece');
+        $resultados['votoscaletanosune'] = Mesa::sum('votoscaletanosune');
+        $resultados['votoscaletasi'] = Mesa::sum('votoscaletasi');
+        $resultados['votoscaminoalavictoria'] = Mesa::sum('votoscaminoalavictoria');
+        $resultados['votosdesarrollocaletense'] = Mesa::sum('votosdesarrollocaletense');
+        $resultados['votoselegimoscreer'] = Mesa::sum('votoselegimoscreer');
+        $resultados['votosfuezajoven'] = Mesa::sum('votosfuezajoven');
+        $resultados['votoshastalavictoria'] = Mesa::sum('votoshastalavictoria');
+        $resultados['votoskolinacaleta'] = Mesa::sum('votoskolinacaleta');
+        $resultados['votoslealtadycompromiso'] = Mesa::sum('votoslealtadycompromiso');
+        $resultados['votosmascerca'] = Mesa::sum('votosmascerca');
+        $resultados['votosmejorcaleta'] = Mesa::sum('votosmejorcaleta');
+        $resultados['votosnaceunaesperanza'] = Mesa::sum('votosnaceunaesperanza');
+        $resultados['votospensarcaletense'] = Mesa::sum('votospensarcaletense');
+        $resultados['votospropuestajoven'] = Mesa::sum('votospropuestajoven');
+        $resultados['votosproyectojoven'] = Mesa::sum('votosproyectojoven');
+        $resultados['votosunidadycompromiso'] = Mesa::sum('votosunidadycompromiso');
+        $resultados['total702'] = $resultados['votos19dediciembre'] + $resultados['votoscaletacrece'] + $resultados['votoscaletanosune'] + $resultados['votoscaletasi'] + $resultados['votoscaminoalavictoria'] + $resultados['votosdesarrollocaletense'] + $resultados['votoselegimoscreer'] + $resultados['votosfuezajoven'] + $resultados['votoshastalavictoria'] + $resultados['votoskolinacaleta'] + $resultados['votoslealtadycompromiso'] + $resultados['votosmascerca'] + $resultados['votosmejorcaleta'] + $resultados['votosnaceunaesperanza'] + $resultados['votospensarcaletense'] + $resultados['votospropuestajoven'] + $resultados['votosproyectojoven'] + $resultados['votosunidadycompromiso'];
+
+        $resultados['votosfrentedeizquierda'] = Mesa::sum('votosfrentedeizquierda');
+        $resultados['total703'] = $resultados['votosfrentedeizquierda'];
+
+        $resultados['votoscambiandostacruz'] = Mesa::sum('votoscambiandostacruz');
+        $resultados['votosconsensopro'] = Mesa::sum('votosconsensopro');
+        $resultados['votosesahora'] = Mesa::sum('votosesahora');
+        $resultados['votoslafuerzadelcambio'] = Mesa::sum('votoslafuerzadelcambio');
+        $resultados['votosmassantacruz'] = Mesa::sum('votosmassantacruz');
+        $resultados['votosmilei'] = Mesa::sum('votosmilei');
+        $resultados['votosparacrecer'] = Mesa::sum('votosparacrecer');
+        $resultados['votospodemosrenovar'] = Mesa::sum('votospodemosrenovar');
+        $resultados['votosporcaletaoliv'] = Mesa::sum('votosporcaletaoliv');
+        $resultados['votossantacruzpuede'] = Mesa::sum('votossantacruzpuede');
+        $resultados['votossoluciones'] = Mesa::sum('votossoluciones');
+        $resultados['votossomosstacruz'] = Mesa::sum('votossomosstacruz');
+        $resultados['total704'] = $resultados['votoscambiandostacruz'] + $resultados['votosconsensopro'] + $resultados['votosesahora'] + $resultados['votoslafuerzadelcambio'] + $resultados['votosmassantacruz'] + $resultados['votosmilei'] + $resultados['votosparacrecer'] + $resultados['votospodemosrenovar'] + $resultados['votosporcaletaoliv'] + $resultados['votossantacruzpuede'] + $resultados['votossoluciones'] + $resultados['votossomosstacruz'];
+
+        $resultados['votosnulos'] = Mesa::sum('votosnulos');
+        $resultados['votosrecurridos'] = Mesa::sum('votosrecurridos');
+        $resultados['votosimpugnados'] = Mesa::sum('votosimpugnados');
+        $resultados['votoscomelectoral'] = Mesa::sum('votoscomelectoral');
+        $resultados['votosblanco'] = Mesa::sum('votosblanco');
+        $resultados['totalgral'] = Mesa::sum('totalgral');
+
+        return view("mesas.resultados", compact("resultados"));
     }
 
     public function edit($id)
