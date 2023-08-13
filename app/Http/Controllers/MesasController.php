@@ -91,7 +91,7 @@ class MesasController extends Controller
             'votosimpugnados'           => 'required|integer|min:0',
             'votoscomelectoral'         => 'required|integer|min:0',
             'votosblanco'               => 'required|integer|min:0',
-            'totalgral'                 => 'required|integer|min:0'
+            'totalgral'                 => 'integer|min:0'
         ];
 
         $messages = [
@@ -149,7 +149,9 @@ class MesasController extends Controller
             'votosrecurridos'           => strip_tags($request->input('votosrecurridos')),
             'votosimpugnados'           => strip_tags($request->input('votosimpugnados')),
             'votoscomelectoral'         => strip_tags($request->input('votoscomelectoral')),
-            'votosblanco'               => strip_tags($request->input('votosblanco'))
+            'votosblanco'               => strip_tags($request->input('votosblanco')),
+            'totalgral'                 => strip_tags($request->input('totalgral')),
+            'cargadopor'                => strip_tags($request->input('cargadopor'))
         ]);        
         
         return redirect()->action('MesasController@index')->with('success', 'Mesa cargada con éxito.');

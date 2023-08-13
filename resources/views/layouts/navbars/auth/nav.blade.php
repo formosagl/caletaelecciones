@@ -9,6 +9,7 @@
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4 d-flex justify-content-end" id="navbar">
             <ul class="navbar-nav  justify-content-end">
                 <li class="nav-item d-flex align-items-center">
+                    <span class="d-sm-inline d-none pe-3 text-gradient text-primary text-uppercase text-xs font-weight-bold">{{ auth()->user()->name }}</span>
                     <a href="{{ url('/logout')}}" class="nav-link text-body font-weight-bold px-0">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none">Salir</span>

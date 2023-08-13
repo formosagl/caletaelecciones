@@ -2,14 +2,14 @@
 
 @section('content')
 
-  <section class="min-vh-100 mb-8">
-    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg" style="background-image: url('../assets/img/curved-images/curved14.jpg');">
+<section class="min-vh-100 mb-8">
+    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 mx-3 border-radius-lg" style="background-image: url('{!! asset('assets/img/curved-images/curved14.jpg') !!}');">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-5 text-center mx-auto">
-            <h1 class="text-white mb-2 mt-5">Welcome!</h1>
-            <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+            <h1 class="text-white mb-2 mt-5">Bienvenido!</h1>
+            <p class="text-lead text-white">Aqui puedes registrarte a Santa Cruz elije 2023</p>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
           <div class="card z-index-0">
             <div class="card-header text-center pt-4">
-              <h5>Register with</h5>
+              <h5>Registrarse con</h5>
             </div>
             <div class="row px-xl-5 px-sm-4 px-3">
               <div class="col-3 ms-auto px-1">
@@ -61,7 +61,7 @@
               </div>
               <div class="mt-2 position-relative text-center">
                 <p class="text-sm font-weight-bold mb-2 text-secondary text-border d-inline z-index-2 bg-white px-3">
-                  or
+                  o
                 </p>
               </div>
             </div>
@@ -69,7 +69,7 @@
               <form role="form text-left" method="POST" action="/register">
                 @csrf
                 <div class="mb-3">
-                  <input type="text" class="form-control" placeholder="Name" name="name" id="name" aria-label="Name" aria-describedby="name" value="{{ old('name') }}">
+                  <input type="text" class="form-control" placeholder="Nombre" name="name" id="name" aria-label="Name" aria-describedby="name" value="{{ old('name') }}">
                   @error('name')
                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                   @enderror
@@ -81,7 +81,7 @@
                   @enderror
                 </div>
                 <div class="mb-3">
-                  <input type="password" class="form-control" placeholder="Password" name="password" id="password" aria-label="Password" aria-describedby="password-addon">
+                  <input type="password" class="form-control" placeholder="Clave" name="password" id="password" aria-label="Password" aria-describedby="password-addon">
                   @error('password')
                     <p class="text-danger text-xs mt-2">{{ $message }}</p>
                   @enderror
@@ -89,16 +89,16 @@
                 <div class="form-check form-check-info text-left">
                   <input class="form-check-input" type="checkbox" name="agreement" id="flexCheckDefault" checked>
                   <label class="form-check-label" for="flexCheckDefault">
-                    I agree the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
+                    Acepto los <a href="javascript:;" class="text-dark font-weight-bolder">Terminos y Condiciones</a>
                   </label>
                   @error('agreement')
-                    <p class="text-danger text-xs mt-2">First, agree to the Terms and Conditions, then try register again.</p>
+                    <p class="text-danger text-xs mt-2">Debes aceptar los terminos y condiciones para poder registrate.</p>
                   @enderror
                 </div>
                 <div class="text-center">
-                  <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                  <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2">Registrarse</button>
                 </div>
-                <p class="text-sm mt-3 mb-0">Already have an account? <a href="login" class="text-dark font-weight-bolder">Sign in</a></p>
+                <p class="text-sm mt-3 mb-0">Ya tienes cuenta? <a href="login" class="text-dark font-weight-bolder">Ingresar</a></p>
               </form>
             </div>
           </div>

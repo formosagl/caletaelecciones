@@ -14,7 +14,7 @@ class Mesa extends Model
         'votosfuezajoven','votoshastalavictoria','votoskolinacaleta','votoslealtadycompromiso','votosmascerca','votosmejorcaleta','votosnaceunaesperanza',
         'votospensarcaletense','votospropuestajoven','votosproyectojoven','votosunidadycompromiso','votosfrentedeizquierda','votoscambiandostacruz','votosconsensopro',
         'votosesahora','votoslafuerzadelcambio','votosmassantacruz','votosmilei','votosparacrecer','votospodemosrenovar','votosporcaletaoliv','votossantacruzpuede',
-        'votossoluciones','votossomosstacruz','votosnulos','votosrecurridos','votosimpugnados','votoscomelectoral','votosblanco'
+        'votossoluciones','votossomosstacruz','votosnulos','votosrecurridos','votosimpugnados','votoscomelectoral','votosblanco','totalgral','cargadopor'
     ];
 
     protected $primaryKey = 'pmesa_id';    
