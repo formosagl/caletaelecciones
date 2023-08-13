@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="p-4 bg-secondary">
+                <div class="p-4 bg-gray-200">
 
                     <form method="post" action="{{ route('mesas.cargar') }}" autocomplete="off">
                         @csrf
