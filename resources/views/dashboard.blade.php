@@ -1,96 +1,94 @@
 @extends('layouts.user_type.auth')
 
 @section('content')
-
-<div class="row">
-  <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-    <div class="card">
-      <div class="card-body p-3">
-        <div class="row">
-          <div class="col-8">
-            <div class="numbers">
-              <p class="text-sm mb-0 text-capitalize font-weight-bold">Escuelas</p>
-              <h5 class="font-weight-bolder mb-0">
-                21
-              </h5>
+  <div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Escuelas</p>
+                <h5 class="font-weight-bolder mb-0">{{ $dashb['escuelas'] }}</h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+              </div>
             </div>
           </div>
-          <div class="col-4 text-end">
-            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-              <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Mesas</p>
+                <h5 class="font-weight-bolder mb-0">{{ $dashb['mesas'] }}</h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Mesas Cargadas</p>
+                <h5 class="font-weight-bolder mb-0">{{ $dashb['cargadas'] }}</h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-8">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Restan Cargar</p>
+                <h5 class="font-weight-bolder mb-0">{{ $dashb['restan'] }}</h5>
+              </div>
+            </div>
+            <div class="col-4 text-end">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-    <div class="card">
-      <div class="card-body p-3">
-        <div class="row">
-          <div class="col-8">
-            <div class="numbers">
-              <p class="text-sm mb-0 text-capitalize font-weight-bold">Mesas</p>
-              <h5 class="font-weight-bolder mb-0">
-                163
-              </h5>
-            </div>
-          </div>
-          <div class="col-4 text-end">
-            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-              <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
-            </div>
-          </div>
+
+  @if(session()->has('success'))
+    <div class="row">
+      <div class="col-12">
+        <div x-data="{ show: true}" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="alert-success position-fixed bg-success rounded right-3 text-sm py-2 px-4">
+          <p class="m-0">{{ session('success')}}</p>
         </div>
       </div>
     </div>
-  </div>
-  <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-    <div class="card">
-      <div class="card-body p-3">
-        <div class="row">
-          <div class="col-8">
-            <div class="numbers">
-              <p class="text-sm mb-0 text-capitalize font-weight-bold">Mesas Cargadas</p>
-              <h5 class="font-weight-bolder mb-0">
-                0
-              </h5>
-            </div>
-          </div>
-          <div class="col-4 text-end">
-            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-              <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-xl-3 col-sm-6">
-    <div class="card">
-      <div class="card-body p-3">
-        <div class="row">
-          <div class="col-8">
-            <div class="numbers">
-              <p class="text-sm mb-0 text-capitalize font-weight-bold">Restan Cargar</p>
-              <h5 class="font-weight-bolder mb-0">
-                163
-              </h5>
-            </div>
-          </div>
-          <div class="col-4 text-end">
-            <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-              <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
+  @endif
 
 @endsection
 @push('dashboard')

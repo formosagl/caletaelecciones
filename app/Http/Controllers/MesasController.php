@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Escuela;
+use App\Mesa;
 use Validator;
 use Illuminate\Http\Request;
 
@@ -19,85 +20,84 @@ class MesasController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+    public function index() {
         $escuelas = Escuela::orderBy('escuelas_nombre')->get();
 
         return view('mesas.index', compact('escuelas'));
     }
 
-    public function create()
-    {
+    public function create() {
 
     }
 
-    public function cargar(Request $request)
-    {
+    public function cargar(Request $request) {
+        $mesas = Mesa::where('pmesa_escuela', '=', $request->escuela)->where('pmesa_mesa', '=', $request->mesa)->first();
 
-        // AGREGAR VALIDACION SI YA FUE CARGADA LA MESA
-
-        if ($escuelas = Escuela::findOrFail($request->escuela)) {
-            $mesas = $request->mesa;
-
+        if (!is_null($mesas)) {
+            return back()->withErrors(['La mesa de esa escuela ya ha sido cargada.']);
         } else {
-            return back()->with('error', 'Ocurrió un error seleccionando la escuela.');
+            if ($escuelas = Escuela::findOrFail($request->escuela)) {
+                $mesas = $request->mesa;
+            } else {
+                return back()->withErrors(['Ocurrió un error seleccionando la escuela.']);
+            }
+    
+            return view('mesas.create', compact('escuelas','mesas'));
         }
-
-        return view('mesas.create', compact('escuelas','mesas'));
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request) {
         $rules = [
-            'escuela'                   => 'required|integer',
-            'mesa'                      => 'required|integer',
-            'votoscambiacaleta'         => 'required|integer',
-            'votoscoaliciontuespacio'   => 'required|integer',
-            'votosjuntosparacambiarcaleta' => 'required|integer',
-            'votosjuntospodemos'        => 'required|integer',
-            'votosporcaleta'            => 'required|integer',
-            'votos19dediciembre'        => 'required|integer',
-            'votoscaletacrece'          => 'required|integer',
-            'votoscaletanosune'         => 'required|integer',
-            'votoscaletasi'             => 'required|integer',
-            'votoscaminoalavictoria'    => 'required|integer',
-            'votosdesarrollocaletense'  => 'required|integer',
-            'votoselegimoscreer'        => 'required|integer',
-            'votosfuezajoven'           => 'required|integer',
-            'votoshastalavictoria'      => 'required|integer',
-            'votoskolinacaleta'         => 'required|integer',
-            'votoslealtadycompromiso'   => 'required|integer',
-            'votosmascerca'             => 'required|integer',
-            'votosmejorcaleta'          => 'required|integer',
-            'votosnaceunaesperanza'     => 'required|integer',
-            'votospensarcaletense'      => 'required|integer',
-            'votospropuestajoven'       => 'required|integer',
-            'votosproyectojoven'        => 'required|integer',
-            'votosunidadycompromiso'    => 'required|integer',
-            'votosfrentedeizquierda'    => 'required|integer',
-            'votoscambiandostacruz'     => 'required|integer',
-            'votosconsensopro'          => 'required|integer',
-            'votosesahora'              => 'required|integer',
-            'votoslafuerzadelcambio'    => 'required|integer',
-            'votosmassantacruz'         => 'required|integer',
-            'votosmilei'                => 'required|integer',
-            'votosparacrecer'           => 'required|integer',
-            'votospodemosrenovar'       => 'required|integer',
-            'votosporcaletaoliv'        => 'required|integer',
-            'votossantacruzpuede'       => 'required|integer',
-            'votossoluciones'           => 'required|integer',
-            'votossomosstacruz'         => 'required|integer',
-            'votosnulos'                => 'required|integer',
-            'votosrecurridos'           => 'required|integer',
-            'votosimpugnados'           => 'required|integer',
-            'votoscomelectoral'         => 'required|integer',
-            'votosblanco'               => 'required|integer',
-            'totalgral'                 => 'required|integer'            
+            'escuela'                   => 'required|integer|min:0',
+            'mesa'                      => 'required|integer|min:0',
+            'votoscambiacaleta'         => 'required|integer|min:0',
+            'votoscoaliciontuespacio'   => 'required|integer|min:0',
+            'votosjuntosparacambiarcaleta' => 'required|integer|min:0',
+            'votosjuntospodemos'        => 'required|integer|min:0',
+            'votosporcaleta'            => 'required|integer|min:0',
+            'votos19dediciembre'        => 'required|integer|min:0',
+            'votoscaletacrece'          => 'required|integer|min:0',
+            'votoscaletanosune'         => 'required|integer|min:0',
+            'votoscaletasi'             => 'required|integer|min:0',
+            'votoscaminoalavictoria'    => 'required|integer|min:0',
+            'votosdesarrollocaletense'  => 'required|integer|min:0',
+            'votoselegimoscreer'        => 'required|integer|min:0',
+            'votosfuezajoven'           => 'required|integer|min:0',
+            'votoshastalavictoria'      => 'required|integer|min:0',
+            'votoskolinacaleta'         => 'required|integer|min:0',
+            'votoslealtadycompromiso'   => 'required|integer|min:0',
+            'votosmascerca'             => 'required|integer|min:0',
+            'votosmejorcaleta'          => 'required|integer|min:0',
+            'votosnaceunaesperanza'     => 'required|integer|min:0',
+            'votospensarcaletense'      => 'required|integer|min:0',
+            'votospropuestajoven'       => 'required|integer|min:0',
+            'votosproyectojoven'        => 'required|integer|min:0',
+            'votosunidadycompromiso'    => 'required|integer|min:0',
+            'votosfrentedeizquierda'    => 'required|integer|min:0',
+            'votoscambiandostacruz'     => 'required|integer|min:0',
+            'votosconsensopro'          => 'required|integer|min:0',
+            'votosesahora'              => 'required|integer|min:0',
+            'votoslafuerzadelcambio'    => 'required|integer|min:0',
+            'votosmassantacruz'         => 'required|integer|min:0',
+            'votosmilei'                => 'required|integer|min:0',
+            'votosparacrecer'           => 'required|integer|min:0',
+            'votospodemosrenovar'       => 'required|integer|min:0',
+            'votosporcaletaoliv'        => 'required|integer|min:0',
+            'votossantacruzpuede'       => 'required|integer|min:0',
+            'votossoluciones'           => 'required|integer|min:0',
+            'votossomosstacruz'         => 'required|integer|min:0',
+            'votosnulos'                => 'required|integer|min:0',
+            'votosrecurridos'           => 'required|integer|min:0',
+            'votosimpugnados'           => 'required|integer|min:0',
+            'votoscomelectoral'         => 'required|integer|min:0',
+            'votosblanco'               => 'required|integer|min:0',
+            'totalgral'                 => 'required|integer|min:0'
         ];
 
         $messages = [
-            'required'              => 'Debes ingresar todos los valores.',
-            'integer'               => 'Los valores tienen que ser números.',
+            'required'      => 'Debes ingresar todos los valores.',
+            'integer'       => 'Los valores tienen que ser números.',
+            'min'           => 'Los valores no deben ser negativos.'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -105,21 +105,52 @@ class MesasController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-       /*
-        elecciones::create([
-            'tipo'          => strip_tags($request->input('tipo')),
-            'nombre'        => strip_tags($request->input('nombre')),
-            'cargo1'        => strip_tags($request->input('cargo1')),
-            'candidato1'    => strip_tags($request->input('candidato1')),
-            'cargo2'        => strip_tags($request->input('cargo2')),
-            'candidato2'    => strip_tags($request->input('candidato2')),
-            'color'         => strip_tags($request->input('color')),
-            'votos'         => '0',
-            'porcentaje'    => '0.00',
-            'imagen'        => $imagennombre,
-            'logo'          => $logonombre
-        ]);
-        */
+       
+        Mesa::create([
+            'pmesa_escuela'             => strip_tags($request->input('escuela')),
+            'pmesa_mesa'                => strip_tags($request->input('mesa')),
+            'votoscambiacaleta'         => strip_tags($request->input('votoscambiacaleta')),
+            'votoscoaliciontuespacio'   => strip_tags($request->input('votoscoaliciontuespacio')),
+            'votosjuntosparacambiarcaleta' => strip_tags($request->input('votosjuntosparacambiarcaleta')),
+            'votosjuntospodemos'        => strip_tags($request->input('votosjuntospodemos')),
+            'votosporcaleta'            => strip_tags($request->input('votosporcaleta')),
+            'votos19dediciembre'        => strip_tags($request->input('votos19dediciembre')),
+            'votoscaletacrece'          => strip_tags($request->input('votoscaletacrece')),
+            'votoscaletanosune'         => strip_tags($request->input('votoscaletanosune')),
+            'votoscaletasi'             => strip_tags($request->input('votoscaletasi')),
+            'votoscaminoalavictoria'    => strip_tags($request->input('votoscaminoalavictoria')),
+            'votosdesarrollocaletense'  => strip_tags($request->input('votosdesarrollocaletense')),
+            'votoselegimoscreer'        => strip_tags($request->input('votoselegimoscreer')),
+            'votosfuezajoven'           => strip_tags($request->input('votosfuezajoven')),
+            'votoshastalavictoria'      => strip_tags($request->input('votoshastalavictoria')),
+            'votoskolinacaleta'         => strip_tags($request->input('votoskolinacaleta')),
+            'votoslealtadycompromiso'   => strip_tags($request->input('votoslealtadycompromiso')),
+            'votosmascerca'             => strip_tags($request->input('votosmascerca')),
+            'votosmejorcaleta'          => strip_tags($request->input('votosmejorcaleta')),
+            'votosnaceunaesperanza'     => strip_tags($request->input('votosnaceunaesperanza')),
+            'votospensarcaletense'      => strip_tags($request->input('votospensarcaletense')),
+            'votospropuestajoven'       => strip_tags($request->input('votospropuestajoven')),
+            'votosproyectojoven'        => strip_tags($request->input('votosproyectojoven')),
+            'votosunidadycompromiso'    => strip_tags($request->input('votosunidadycompromiso')),
+            'votosfrentedeizquierda'    => strip_tags($request->input('votosfrentedeizquierda')),
+            'votoscambiandostacruz'     => strip_tags($request->input('votoscambiandostacruz')),
+            'votosconsensopro'          => strip_tags($request->input('votosconsensopro')),
+            'votosesahora'              => strip_tags($request->input('votosesahora')),
+            'votoslafuerzadelcambio'    => strip_tags($request->input('votoslafuerzadelcambio')),
+            'votosmassantacruz'         => strip_tags($request->input('votosmassantacruz')),
+            'votosmilei'                => strip_tags($request->input('votosmilei')),
+            'votosparacrecer'           => strip_tags($request->input('votosparacrecer')),
+            'votospodemosrenovar'       => strip_tags($request->input('votospodemosrenovar')),
+            'votosporcaletaoliv'        => strip_tags($request->input('votosporcaletaoliv')),
+            'votossantacruzpuede'       => strip_tags($request->input('votossantacruzpuede')),
+            'votossoluciones'           => strip_tags($request->input('votossoluciones')),
+            'votossomosstacruz'         => strip_tags($request->input('votossomosstacruz')),
+            'votosnulos'                => strip_tags($request->input('votosnulos')),
+            'votosrecurridos'           => strip_tags($request->input('votosrecurridos')),
+            'votosimpugnados'           => strip_tags($request->input('votosimpugnados')),
+            'votoscomelectoral'         => strip_tags($request->input('votoscomelectoral')),
+            'votosblanco'               => strip_tags($request->input('votosblanco'))
+        ]);        
         
         return redirect()->action('MesasController@index')->with('success', 'Mesa cargada con éxito.');
     }

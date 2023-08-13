@@ -6,34 +6,27 @@
     <div class="row mt-3">
         <div class="col-xl-12 mb-5 mb-xl-0">
 
-            @if(Session::has('success'))
-            <div class="alert alert-success alert-dismissible fade show col-12" role="alert">
-                {{ Session::get('success') }}
+            @if(session()->has('success'))
+                <div x-data="{ show: true}" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="right-3 text-sm py-2 px-4 alert alert-success alert-dismissible">
+                <p class="m-0">{{ session('success')}}</p>
                 @php
-                Session::forget('success');
+                    Session::forget('success');
                 @endphp
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                </div>
             @endif
 
             @if(Session::has('errors'))
-            <div class="alert alert-danger alert-dismissible fade show col-12" role="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                @php
-                Session::forget('errors');
-                @endphp
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+                <div class="alert alert-danger alert-dismissible fade show col-12" role="alert">
+                    <ul class="list-group">
+                        @foreach ($errors->all() as $error)
+                        <li class="text-white list-group-item bg-transparent">Error: {{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    @php
+                        Session::forget('errors');
+                    @endphp
+                </div>
             @endif
-
 
             <div class="card bg-default shadow">
                 <div class="card-header bg-white border-0">
@@ -50,16 +43,6 @@
                     <form method="post" action="{{ route('mesas.cargar') }}" autocomplete="off">
                         @csrf
                         @method('post')
-
-                        @if ($errors->count() > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
 
                         <div class="row">
                             <div class="col-12">

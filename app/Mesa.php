@@ -9,9 +9,14 @@ class Mesa extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'tipo', 'nombre', 'cargo1', 'candidato1', 'cargo2', 'candidato2', 'logo', 'imagen', 'votos', 'porcentaje', 'color'
+        'pmesa_escuela','pmesa_mesa','votoscambiacaleta','votoscoaliciontuespacio','votosjuntosparacambiarcaleta','votosjuntospodemos','votosporcaleta',
+        'votos19dediciembre','votoscaletacrece','votoscaletanosune','votoscaletasi','votoscaminoalavictoria','votosdesarrollocaletense','votoselegimoscreer',
+        'votosfuezajoven','votoshastalavictoria','votoskolinacaleta','votoslealtadycompromiso','votosmascerca','votosmejorcaleta','votosnaceunaesperanza',
+        'votospensarcaletense','votospropuestajoven','votosproyectojoven','votosunidadycompromiso','votosfrentedeizquierda','votoscambiandostacruz','votosconsensopro',
+        'votosesahora','votoslafuerzadelcambio','votosmassantacruz','votosmilei','votosparacrecer','votospodemosrenovar','votosporcaletaoliv','votossantacruzpuede',
+        'votossoluciones','votossomosstacruz','votosnulos','votosrecurridos','votosimpugnados','votoscomelectoral','votosblanco'
     ];
 
-    protected $primaryKey = 'mesas_id';    
-    protected $table = 'mesas';
+    protected $primaryKey = 'pmesa_id';    
+    protected $table = 'pmesa';
 }

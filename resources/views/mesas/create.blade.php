@@ -19,41 +19,45 @@
                 </div>
                 <div class="card-body">
 
-                    @if(Session::has('success'))
-                    <div class="alert alert-success">
-                        {{ Session::get('success') }}
+                    @if(session()->has('success'))
+                        <div x-data="{ show: true}" x-init="setTimeout(() => show = false, 4000)" x-show="show" class="right-3 text-sm py-2 px-4 alert alert-success alert-dismissible">
+                        <p class="m-0">{{ session('success')}}</p>
                         @php
-                        Session::forget('success');
+                            Session::forget('success');
                         @endphp
-                    </div>
+                        </div>
+                    @endif
+
+                    @if(Session::has('errors'))
+                        <div class="alert alert-danger alert-dismissible fade show col-12" role="alert">
+                            <ul class="list-group">
+                                @foreach ($errors->all() as $error)
+                                    <li class="text-white list-group-item bg-transparent">Error: {{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            @php
+                                Session::forget('errors');
+                            @endphp
+                        </div>
                     @endif
 
                     <form method="post" action="{{ route('mesas.store') }}" autocomplete="off">
                         @csrf
                         @method('post')
 
-                        @if ($errors->count() > 0)
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
-
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="input-escuelab">Escuela:</label>
                                     <input type="text" name="escuelab" id="input-escuelab" class="form-control form-control-sm form-control-alternative" value="{{ $escuelas->escuelas_nombre }}" disabled />
-                                    <input type="hidden" name="escuela" id="input-escuela" value="{{ $escuelas->escuela_id }}" />
+                                    <input type="hidden" name="escuela" id="input-escuela" value="{{ $escuelas->escuelas_id }}" />
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="input-mesa">Mesa:</label>
-                                    <input type="text" name="mesa" id="input-mesa" class="form-control form-control-sm form-control-alternative" value="{{ $mesas }}" disabled />
+                                    <label class="form-control-label" for="input-mesab">Mesa:</label>
+                                    <input type="text" name="mesab" id="input-mesab" class="form-control form-control-sm form-control-alternative" value="{{ $mesas }}" disabled />
+                                    <input type="hidden" name="mesa" id="input-mesa" value="{{ $mesas }}" />
                                 </div>
                             </div>
                         </div>
@@ -82,7 +86,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-cambiacaleta') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label" for="input-votos-cambiacaleta">Votos:</label>
-                                                    <input type="number" name="votoscambiacaleta" id="input-votos-cambiacaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscambiacaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscambiacaleta" id="input-votos-cambiacaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscambiacaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscambiacaleta'))
                                                     <span class="invalid-feedback" role="alert">
@@ -109,7 +113,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-coaliciontuespacio') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-coaliciontuespacio">Votos:</label>
-                                                    <input type="number" name="votoscoaliciontuespacio" id="input-votos-coaliciontuespacio" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscoaliciontuespacio') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscoaliciontuespacio" id="input-votos-coaliciontuespacio" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscoaliciontuespacio') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscoaliciontuespacio'))
                                                     <span class="invalid-feedback" role="alert">
@@ -136,7 +140,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-juntosparacambiarcaleta') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-juntosparacambiarcaleta">Votos:</label>
-                                                    <input type="number" name="votosjuntosparacambiarcaleta" id="input-votos-juntosparacambiarcaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosjuntosparacambiarcaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosjuntosparacambiarcaleta" id="input-votos-juntosparacambiarcaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosjuntosparacambiarcaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosjuntosparacambiarcaleta'))
                                                     <span class="invalid-feedback" role="alert">
@@ -163,7 +167,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-juntospodemos') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-juntospodemos">Votos:</label>
-                                                    <input type="number" name="votosjuntospodemos" id="input-votos-juntospodemos" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosjuntospodemos') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosjuntospodemos" id="input-votos-juntospodemos" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosjuntospodemos') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosjuntospodemos'))
                                                     <span class="invalid-feedback" role="alert">
@@ -190,7 +194,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-porcaleta') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-porcaleta">Votos:</label>
-                                                    <input type="number" name="votosporcaleta" id="input-votos-porcaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosporcaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosporcaleta" id="input-votos-porcaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosporcaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosporcaleta'))
                                                     <span class="invalid-feedback" role="alert">
@@ -236,7 +240,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-19dediciembre') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label" for="input-votos-19dediciembre">Votos:</label>
-                                                    <input type="number" name="votos19dediciembre" id="input-votos-19dediciembre" class="form-control form-control-sm form-control-alternative{{ $errors->has('votos19dediciembre') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votos19dediciembre" id="input-votos-19dediciembre" class="form-control form-control-sm form-control-alternative{{ $errors->has('votos19dediciembre') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votos19dediciembre'))
                                                     <span class="invalid-feedback" role="alert">
@@ -263,7 +267,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-caletacrece') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-caletacrece">Votos:</label>
-                                                    <input type="number" name="votoscaletacrece" id="input-votos-coaliciontuespacio" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaletacrece') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscaletacrece" id="input-votos-coaliciontuespacio" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaletacrece') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscaletacrece'))
                                                     <span class="invalid-feedback" role="alert">
@@ -290,7 +294,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-caletanosune') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-caletanosune">Votos:</label>
-                                                    <input type="number" name="votoscaletanosune" id="input-votos-caletanosune" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaletanosune') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscaletanosune" id="input-votos-caletanosune" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaletanosune') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscaletanosune'))
                                                     <span class="invalid-feedback" role="alert">
@@ -317,7 +321,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-caletasi') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-caletasi">Votos:</label>
-                                                    <input type="number" name="votoscaletasi" id="input-votos-caletasi" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaletasi') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscaletasi" id="input-votos-caletasi" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaletasi') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscaletasi'))
                                                     <span class="invalid-feedback" role="alert">
@@ -344,7 +348,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-caminoalavictoria') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-caminoalavictoria">Votos:</label>
-                                                    <input type="number" name="votoscaminoalavictoria" id="input-votos-caminoalavictoria" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaminoalavictoria') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscaminoalavictoria" id="input-votos-caminoalavictoria" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscaminoalavictoria') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscaminoalavictoria'))
                                                     <span class="invalid-feedback" role="alert">
@@ -371,7 +375,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-desarrollocaletense') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-desarrollocaletense">Votos:</label>
-                                                    <input type="number" name="votosdesarrollocaletense" id="input-votos-desarrollocaletense" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosdesarrollocaletense') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosdesarrollocaletense" id="input-votos-desarrollocaletense" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosdesarrollocaletense') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosdesarrollocaletense'))
                                                     <span class="invalid-feedback" role="alert">
@@ -398,7 +402,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-elegimoscreer') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-elegimoscreer">Votos:</label>
-                                                    <input type="number" name="votoselegimoscreer" id="input-votos-elegimoscreer" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoselegimoscreer') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoselegimoscreer" id="input-votos-elegimoscreer" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoselegimoscreer') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoselegimoscreer'))
                                                     <span class="invalid-feedback" role="alert">
@@ -425,7 +429,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-fuezajoven') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-fuezajoven">Votos:</label>
-                                                    <input type="number" name="votosfuezajoven" id="input-votos-fuezajoven" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosfuezajoven') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosfuezajoven" id="input-votos-fuezajoven" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosfuezajoven') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosfuezajoven'))
                                                     <span class="invalid-feedback" role="alert">
@@ -452,7 +456,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-hastalavictoria') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-hastalavictoria">Votos:</label>
-                                                    <input type="number" name="votoshastalavictoria" id="input-votos-hastalavictoria" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoshastalavictoria') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoshastalavictoria" id="input-votos-hastalavictoria" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoshastalavictoria') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoshastalavictoria'))
                                                     <span class="invalid-feedback" role="alert">
@@ -479,7 +483,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-kolinacaleta') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-kolinacaleta">Votos:</label>
-                                                    <input type="number" name="votoskolinacaleta" id="input-votos-kolinacaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoskolinacaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoskolinacaleta" id="input-votos-kolinacaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoskolinacaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoskolinacaleta'))
                                                     <span class="invalid-feedback" role="alert">
@@ -506,7 +510,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-lealtadycompromiso') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-lealtadycompromiso">Votos:</label>
-                                                    <input type="number" name="votoslealtadycompromiso" id="input-votos-lealtadycompromiso" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoslealtadycompromiso') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoslealtadycompromiso" id="input-votos-lealtadycompromiso" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoslealtadycompromiso') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoslealtadycompromiso'))
                                                     <span class="invalid-feedback" role="alert">
@@ -533,7 +537,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-mascerca') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-mascerca">Votos:</label>
-                                                    <input type="number" name="votosmascerca" id="input-votos-mascerca" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmascerca') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosmascerca" id="input-votos-mascerca" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmascerca') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosmascerca'))
                                                     <span class="invalid-feedback" role="alert">
@@ -560,7 +564,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-mejorcaleta') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-mejorcaleta">Votos:</label>
-                                                    <input type="number" name="votosmejorcaleta" id="input-votos-mejorcaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmejorcaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosmejorcaleta" id="input-votos-mejorcaleta" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmejorcaleta') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosmejorcaleta'))
                                                     <span class="invalid-feedback" role="alert">
@@ -587,7 +591,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-naceunaesperanza') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-naceunaesperanza">Votos:</label>
-                                                    <input type="number" name="votosnaceunaesperanza" id="input-votos-naceunaesperanza" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosnaceunaesperanza') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosnaceunaesperanza" id="input-votos-naceunaesperanza" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosnaceunaesperanza') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosnaceunaesperanza'))
                                                     <span class="invalid-feedback" role="alert">
@@ -614,7 +618,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-pensarcaletense') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-pensarcaletense">Votos:</label>
-                                                    <input type="number" name="votospensarcaletense" id="input-votos-pensarcaletense" class="form-control form-control-sm form-control-alternative{{ $errors->has('votospensarcaletense') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votospensarcaletense" id="input-votos-pensarcaletense" class="form-control form-control-sm form-control-alternative{{ $errors->has('votospensarcaletense') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votospensarcaletense'))
                                                     <span class="invalid-feedback" role="alert">
@@ -641,7 +645,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-propuestajoven') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-propuestajoven">Votos:</label>
-                                                    <input type="number" name="votospropuestajoven" id="input-votos-propuestajoven" class="form-control form-control-sm form-control-alternative{{ $errors->has('votospropuestajoven') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votospropuestajoven" id="input-votos-propuestajoven" class="form-control form-control-sm form-control-alternative{{ $errors->has('votospropuestajoven') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votospropuestajoven'))
                                                     <span class="invalid-feedback" role="alert">
@@ -668,7 +672,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-proyectojoven') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-proyectojoven">Votos:</label>
-                                                    <input type="number" name="votosproyectojoven" id="input-votos-proyectojoven" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosproyectojoven') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosproyectojoven" id="input-votos-proyectojoven" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosproyectojoven') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosproyectojoven'))
                                                     <span class="invalid-feedback" role="alert">
@@ -695,7 +699,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-unidadycompromiso') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-unidadycompromiso">Votos:</label>
-                                                    <input type="number" name="votosunidadycompromiso" id="input-votos-unidadycompromiso" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosunidadycompromiso') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosunidadycompromiso" id="input-votos-unidadycompromiso" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosunidadycompromiso') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosunidadycompromiso'))
                                                     <span class="invalid-feedback" role="alert">
@@ -739,7 +743,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-frentedeizquierda') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label" for="input-votos-frentedeizquierda">Votos:</label>
-                                                    <input type="number" name="votosfrentedeizquierda" id="input-votos-frentedeizquierda" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosfrentedeizquierda') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosfrentedeizquierda" id="input-votos-frentedeizquierda" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosfrentedeizquierda') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosfrentedeizquierda'))
                                                     <span class="invalid-feedback" role="alert">
@@ -783,7 +787,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-cambiandostacruz') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label" for="input-votos-cambiandostacruz">Votos:</label>
-                                                    <input type="number" name="votoscambiandostacruz" id="input-votos-cambiandostacruz" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscambiandostacruz') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoscambiandostacruz" id="input-votos-cambiandostacruz" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscambiandostacruz') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoscambiandostacruz'))
                                                     <span class="invalid-feedback" role="alert">
@@ -810,7 +814,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-consensopro') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-consensopro">Votos:</label>
-                                                    <input type="number" name="votosconsensopro" id="input-votos-consensopro" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosconsensopro') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosconsensopro" id="input-votos-consensopro" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosconsensopro') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosconsensopro'))
                                                     <span class="invalid-feedback" role="alert">
@@ -837,7 +841,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-esahora') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-esahora">Votos:</label>
-                                                    <input type="number" name="votosesahora" id="input-votos-esahora" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosesahora') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosesahora" id="input-votos-esahora" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosesahora') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosesahora'))
                                                     <span class="invalid-feedback" role="alert">
@@ -864,7 +868,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-lafuerzadelcambio') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-lafuerzadelcambio">Votos:</label>
-                                                    <input type="number" name="votoslafuerzadelcambio" id="input-votos-lafuerzadelcambio" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoslafuerzadelcambio') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votoslafuerzadelcambio" id="input-votos-lafuerzadelcambio" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoslafuerzadelcambio') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votoslafuerzadelcambio'))
                                                     <span class="invalid-feedback" role="alert">
@@ -891,7 +895,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-massantacruz') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-massantacruz">Votos:</label>
-                                                    <input type="number" name="votosmassantacruz" id="input-votos-massantacruz" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmassantacruz') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosmassantacruz" id="input-votos-massantacruz" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmassantacruz') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosmassantacruz'))
                                                     <span class="invalid-feedback" role="alert">
@@ -918,7 +922,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-milei') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-milei">Votos:</label>
-                                                    <input type="number" name="votosmilei" id="input-votos-milei" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmilei') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosmilei" id="input-votos-milei" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosmilei') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosmilei'))
                                                     <span class="invalid-feedback" role="alert">
@@ -945,7 +949,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-paracrecer') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-paracrecer">Votos:</label>
-                                                    <input type="number" name="votosparacrecer" id="input-votos-paracrecer" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosparacrecer') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosparacrecer" id="input-votos-paracrecer" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosparacrecer') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosparacrecer'))
                                                     <span class="invalid-feedback" role="alert">
@@ -972,7 +976,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-podemosrenovar') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-podemosrenovar">Votos:</label>
-                                                    <input type="number" name="votospodemosrenovar" id="input-votos-podemosrenovar" class="form-control form-control-sm form-control-alternative{{ $errors->has('votospodemosrenovar') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votospodemosrenovar" id="input-votos-podemosrenovar" class="form-control form-control-sm form-control-alternative{{ $errors->has('votospodemosrenovar') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votospodemosrenovar'))
                                                     <span class="invalid-feedback" role="alert">
@@ -999,7 +1003,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-porcaletaoliv') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-porcaletaoliv">Votos:</label>
-                                                    <input type="number" name="votosporcaletaoliv" id="input-votos-porcaletaoliv" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosporcaletaoliv') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votosporcaletaoliv" id="input-votos-porcaletaoliv" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosporcaletaoliv') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votosporcaletaoliv'))
                                                     <span class="invalid-feedback" role="alert">
@@ -1026,7 +1030,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-santacruzpuede') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-santacruzpuede">Votos:</label>
-                                                    <input type="number" name="votossantacruzpuede" id="input-votos-santacruzpuede" class="form-control form-control-sm form-control-alternative{{ $errors->has('votossantacruzpuede') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votossantacruzpuede" id="input-votos-santacruzpuede" class="form-control form-control-sm form-control-alternative{{ $errors->has('votossantacruzpuede') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votossantacruzpuede'))
                                                     <span class="invalid-feedback" role="alert">
@@ -1053,7 +1057,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-soluciones') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-soluciones">Votos:</label>
-                                                    <input type="number" name="votossoluciones" id="input-votos-soluciones" class="form-control form-control-sm form-control-alternative{{ $errors->has('votossoluciones') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votossoluciones" id="input-votos-soluciones" class="form-control form-control-sm form-control-alternative{{ $errors->has('votossoluciones') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votossoluciones'))
                                                     <span class="invalid-feedback" role="alert">
@@ -1080,7 +1084,7 @@
                                             <div class="col-lg-4 col-sm-6">
                                                 <div class="form-group{{ $errors->has('votos-somosstacruz') ? ' has-danger' : '' }}">
                                                     <label class="form-control-label d-lg-none" for="input-votos-somosstacruz">Votos:</label>
-                                                    <input type="number" name="votossomosstacruz" id="input-votos-somosstacruz" class="form-control form-control-sm form-control-alternative{{ $errors->has('votossomosstacruz') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                                    <input type="number" name="votossomosstacruz" id="input-votos-somosstacruz" class="form-control form-control-sm form-control-alternative{{ $errors->has('votossomosstacruz') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                                     @if ($errors->has('votossomosstacruz'))
                                                     <span class="invalid-feedback" role="alert">
@@ -1107,7 +1111,7 @@
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group{{ $errors->has('votosnulos') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-votosnulos">Votos Mulos:</label>
-                                            <input type="number" name="votosnulos" id="input-votosnulos" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosnulos') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                            <input type="number" name="votosnulos" id="input-votosnulos" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosnulos') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                             @if ($errors->has('votosnulos'))
                                             <span class="invalid-feedback" role="alert">
@@ -1119,7 +1123,7 @@
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group{{ $errors->has('votosrecurridos') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-votosrecurridos">Votos Recurridos:</label>
-                                            <input type="number" name="votosrecurridos" id="input-votosrecurridos" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosrecurridos') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                            <input type="number" name="votosrecurridos" id="input-votosrecurridos" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosrecurridos') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                             @if ($errors->has('votosrecurridos'))
                                             <span class="invalid-feedback" role="alert">
@@ -1131,7 +1135,7 @@
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group{{ $errors->has('votosimpugnados') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-votosimpugnados">Votos Id Impugnada:</label>
-                                            <input type="number" name="votosimpugnados" id="input-votosimpugnados" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosimpugnados') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                            <input type="number" name="votosimpugnados" id="input-votosimpugnados" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosimpugnados') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                             @if ($errors->has('votosimpugnados'))
                                             <span class="invalid-feedback" role="alert">
@@ -1146,7 +1150,7 @@
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group{{ $errors->has('votoscomelectoral') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-votoscomelectoral">Votos Com.Electoral:</label>
-                                            <input type="number" name="votoscomelectoral" id="input-votoscomelectoral" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscomelectoral') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                            <input type="number" name="votoscomelectoral" id="input-votoscomelectoral" class="form-control form-control-sm form-control-alternative{{ $errors->has('votoscomelectoral') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                             @if ($errors->has('votoscomelectoral'))
                                             <span class="invalid-feedback" role="alert">
@@ -1158,7 +1162,7 @@
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group{{ $errors->has('votosblanco') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-votosblanco">Votos Blanco:</label>
-                                            <input type="number" name="votosblanco" id="input-votosblanco" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosblanco') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                            <input type="number" name="votosblanco" id="input-votosblanco" class="form-control form-control-sm form-control-alternative{{ $errors->has('votosblanco') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                             @if ($errors->has('votosblanco'))
                                             <span class="invalid-feedback" role="alert">
@@ -1170,7 +1174,7 @@
                                     <div class="col-lg-4 col-sm-6">
                                         <div class="form-group{{ $errors->has('totalgral') ? ' has-danger' : '' }}">
                                             <label class="form-control-label" for="input-totalgral">Total General:</label>
-                                            <input type="number" name="totalgral" id="input-totalgral" class="form-control form-control-sm form-control-alternative{{ $errors->has('totalgral') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" value="" required />
+                                            <input type="number" name="totalgral" id="input-totalgral" class="form-control form-control-sm form-control-alternative{{ $errors->has('totalgral') ? ' is-invalid' : '' }}" maxlength="3" placeholder="Votos" min="0" value="" required />
 
                                             @if ($errors->has('totalgral'))
                                             <span class="invalid-feedback" role="alert">
@@ -1183,6 +1187,12 @@
 
                             </div>
                         </div>
+
+                        @if(Session::has('errors'))
+                            @php
+                                Session::forget('errors');
+                            @endphp
+                        @endif
 
                         <div class="row">
                             <div class="col-12 text-center">

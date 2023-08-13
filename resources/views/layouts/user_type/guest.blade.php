@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        @yield('content')        
+        @yield('content')
         @include('layouts.footers.guest.footer')
     @endif
 @endsection

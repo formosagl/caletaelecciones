@@ -14,9 +14,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/', [HomeController::class, 'home']);
 
-	Route::get('dashboard', function () {
-		return view('dashboard');
-	})->name('dashboard');
+	Route::get('dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 
 	Route::get('billing', function () {
 		return view('billing');
