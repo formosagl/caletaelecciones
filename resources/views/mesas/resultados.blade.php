@@ -50,7 +50,7 @@
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize">Lema 701</p>
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold">CAMBIA SANTA CRUZ</p>
-                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total701'] }}</h5>
+                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total701'] }} <small class="text-sm font-weight-lighter">votos</small> <span class="text-success font-weight-bolder">{{ number_format( (($resultados['total701'] * 100 ) / $resultados['totalgral']) , 2, ",", ".") }}<small>%</small></span></h5>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
@@ -70,7 +70,7 @@
                                         <div class="numbers">
                                         <p class="text-sm mb-0 text-capitalize">Lema 702</p>
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold">UNION POR LA PATRIA</p>
-                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total702'] }}</h5>
+                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total702'] }} <small class="text-sm font-weight-lighter">votos</small> <span class="text-success font-weight-bolder">{{ number_format( (($resultados['total702'] * 100 ) / $resultados['totalgral']) , 2, ",", ".") }}<small>%</small></span></h5>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
@@ -90,7 +90,7 @@
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize">Lema 703</p>
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold">FRENTE DE IZQUIERDA</p>
-                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total703'] }}</h5>
+                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total703'] }} <small class="text-sm font-weight-lighter">votos</small> <span class="text-success font-weight-bolder">{{ number_format( (($resultados['total703'] * 100 ) / $resultados['totalgral']) , 2, ",", ".") }}<small>%</small></span></h5>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
@@ -110,7 +110,7 @@
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-capitalize">Lema 704</p>
                                             <p class="text-sm mb-0 text-capitalize font-weight-bold">POR SANTA CRUZ</p>
-                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total704'] }}</h5>
+                                            <h5 class="font-weight-bolder mb-0">{{ $resultados['total704'] }} <small class="text-sm font-weight-lighter">votos</small> <span class="text-success font-weight-bolder">{{ number_format( (($resultados['total704'] * 100 ) / $resultados['totalgral']) , 2, ",", ".") }}<small>%</small></span></h5>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
