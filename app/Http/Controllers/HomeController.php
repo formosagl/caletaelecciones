@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function dashboard() {
         $dashb = [
             'escuelas' => "0", 
-            'mesas' => "163",
+            'mesas' => "167",
             'cargadas' => "0",
             'restan' => "0",
             'votosblancos' => "0",
